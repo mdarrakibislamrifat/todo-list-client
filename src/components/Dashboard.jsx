@@ -26,11 +26,7 @@ const Dashboard = () => {
                     <MdAddRoad className="text-xl"></MdAddRoad>Create Task
                   </NavLink>
                 </li>
-           <li>
-                  <NavLink to="/dashboard/manageList">
-                    <FaList className="text-xl"></FaList>Manage List
-                  </NavLink>
-                </li>
+         
           </>
 
           <div className="divider"></div>

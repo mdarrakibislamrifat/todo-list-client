@@ -1,49 +1,39 @@
-
-import toast, { Toaster } from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import { FaFileExport } from "react-icons/fa";
+import { useLoaderData } from "react-router-dom";
+import Swal from "sweetalert2";
+import UseAxiosPublic from "../../hooks/useAxiosPublic";
 
-const CreateTask = () => {
-  const {
-    register,
+
+const UpdateTask = () => {
+    const items=useLoaderData();
+    const {_id,name,type,typePrior}=items || {}
+    const { register, handleSubmit, reset } = useForm();
+    const axiosPublic = UseAxiosPublic();
+
+  const onSubmit = async (data) => {
+    const taskItem = {
+        name: data.name,
+        type: data.type,
+        typePrior:data.typePrior
+        
+      };
+      const res = await axiosPublic.patch(`/allTodo/v1/v2/${_id}`, taskItem);
+      if (res.data.modifiedCount>0) {
+        reset();
+        Swal.fire({
+          title: "Good job!",
+          text: `${data.name} is updated`,
+          icon: "success",
+        });
+      }
     
-  } = useForm();
-
-  const handleAddTodo = (e) => {
-    e.preventDefault();
-    const form = e.target;
-    const name = form.name.value;
-    const type = form.type.value;
-    const typePrior = form.typePrior.value;
-    
-
-    const product = {
-      
-      name,
-     type,
-     typePrior
-    };
-
-    fetch("http://localhost:5000/todo", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(product),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        if (data.insertedId) {
-          toast.success("Successfully Add Cart!");
-        }
-      });
   };
-  return (
-    <div>
-        <Toaster position="top-center" reverseOrder={false} />
+    return (
+        <div>
+        
       <div>
-        <form onSubmit={handleAddTodo}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="flex gap-6">
             <div className="form-control w-full my-6">
               <label className="label">
@@ -52,7 +42,7 @@ const CreateTask = () => {
               <input
                 {...register("name", { required: true })}
                 type="text"
-                placeholder=" name"
+                placeholder=" name" defaultValue={name}
                 className="input input-bordered w-full "
               />
             </div>
@@ -62,7 +52,7 @@ const CreateTask = () => {
                 <span className="label-text">Todo Type*</span>
               </label>
               <select
-                defaultValue="default"
+                defaultValue={type}
                 {...register("type", { required: true })}
                 className="select select-bordered w-full "
               >
@@ -79,7 +69,7 @@ const CreateTask = () => {
                 <span className="label-text">Todo Priority*</span>
               </label>
               <select
-                defaultValue="default"
+                defaultValue={typePrior}
                 {...register("typePrior", { required: true })}
                 className="select select-bordered w-full "
               >
@@ -90,12 +80,12 @@ const CreateTask = () => {
             </div>
           </div>
           <button className="btn mt-6">
-            Add Todo <FaFileExport className="ml-2"></FaFileExport>{" "}
+            Update Todo <FaFileExport className="ml-2"></FaFileExport>{" "}
           </button>
         </form>
       </div>
     </div>
-  );
+    );
 };
 
-export default CreateTask;
+export default UpdateTask;

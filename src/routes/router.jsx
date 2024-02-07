@@ -11,6 +11,8 @@ import Registration from "../pages/Registration/Registration";
 import Dashboard from "../components/Dashboard";
 import CreateTask from "../components/CreateTask/CreateTask";
 import PrivateRoute from "./privateRoute";
+import ManageTask from "../components/ManageTask/ManageTask";
+import UpdateTask from "../components/UpdateTask/UpdateTask";
 
 const router = createBrowserRouter([
   {
@@ -36,10 +38,22 @@ const router = createBrowserRouter([
   {
     path:'dashboard',
     element:<Dashboard></Dashboard>,
-    children:[{
+    children:[
+      {
       path:'create-task',
       element:<PrivateRoute><CreateTask></CreateTask></PrivateRoute>
-    }]
+    },
+    {
+      path:'manageList',
+      element:<ManageTask></ManageTask>,
+      
+    },
+    {
+      path:'update/:id',
+      element:<UpdateTask></UpdateTask>,
+      loader:({params})=>fetch(`http://localhost:5000/allTodo/new/${params.id}`)
+    }
+  ]
   }
 ]);
 export default router;
