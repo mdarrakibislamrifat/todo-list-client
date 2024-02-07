@@ -39,7 +39,7 @@ const Navbar = () => {
     const navLinks=<>
     <li><Link to='/'>Home</Link></li>
    {user? '': <li><Link to='/login-route'>Login</Link></li>}
-   {user? '': <li><Link to='/dashboard'>Task Manage</Link></li>}
+   {user? <li><Link to='/dashboard'>Task Manage</Link></li> : ''}
     
     </>
     return (

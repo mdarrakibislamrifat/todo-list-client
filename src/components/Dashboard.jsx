@@ -5,7 +5,7 @@ import {
   
 } from "react-icons/fa";
 
-
+import { MdAddRoad } from "react-icons/md";
 
 const Dashboard = () => {
   
@@ -23,7 +23,7 @@ const Dashboard = () => {
                 </li>
            <li>
                   <NavLink to="/dashboard/create-task">
-                    <FaList className="text-xl"></FaList>Create Task
+                    <MdAddRoad className="text-xl"></MdAddRoad>Create Task
                   </NavLink>
                 </li>
            <li>
