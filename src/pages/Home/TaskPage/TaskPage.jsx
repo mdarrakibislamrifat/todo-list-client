@@ -1,15 +1,15 @@
 
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import UseAxiosPublic from "../../hooks/useAxiosPublic";
+
 import Swal from "sweetalert2";
 import { useQuery } from "@tanstack/react-query";
+import UseAxiosPublic from "../../../hooks/useAxiosPublic";
 
 
-const ManageTask = () => {
+const TaskPage = () => {
   
   const axiosPublic = UseAxiosPublic();
-
   const { data: tasks = [] ,refetch} = useQuery({
     queryKey: ["tasks"],
     queryFn: async () => {
@@ -17,6 +17,16 @@ const ManageTask = () => {
       return res.data;
     }
   });
+
+  const { data: completeTask = [] } = useQuery({
+    queryKey: ["completeTasks"],
+    queryFn: async () => {
+      const res = await axiosPublic.get('/allTodo/completedTask');
+      return res.data;
+    }
+  });
+
+
 
   const handleMakeComplete=task=>{
     axiosPublic.patch(`/allTodo/new/${task._id}`)
@@ -79,6 +89,9 @@ const ManageTask = () => {
         <h2 className="text-3xl text-blue-500 font-semibold">
           Total tasks : {tasks.length}
         </h2>
+        <h2 className="text-3xl text-blue-500 font-semibold">
+          Completed tasks : {completeTask.length}
+        </h2>
       </div>
       <div>
         <div className="overflow-x-auto">
@@ -132,4 +145,4 @@ const ManageTask = () => {
   );
 };
 
-export default ManageTask;
+export default TaskPage;
