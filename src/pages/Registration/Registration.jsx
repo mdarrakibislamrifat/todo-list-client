@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import { AuthContext } from '../../provider/AuthProvider';
 import toast, { Toaster } from 'react-hot-toast';
-import { GoogleAuthProvider, updateProfile } from 'firebase/auth';
+import { GoogleAuthProvider} from 'firebase/auth';
 const provider=new GoogleAuthProvider();
 
 const Registration = () => {
